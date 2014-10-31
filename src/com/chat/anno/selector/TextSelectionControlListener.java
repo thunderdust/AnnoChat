@@ -1,4 +1,4 @@
-package com.bossturban.webviewmarker;
+package com.chat.anno.selector;
 
 public interface TextSelectionControlListener {
     void jsError(String error);

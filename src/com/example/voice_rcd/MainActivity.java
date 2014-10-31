@@ -29,6 +29,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.AVAnalytics;
+
 public class MainActivity extends Activity implements OnClickListener {
 	/** Called when the activity is first created. */
 
@@ -56,16 +59,20 @@ public class MainActivity extends Activity implements OnClickListener {
 	private String voiceName;
 	private long startVoiceT, endVoiceT;
 	private Context mContext;
-
 	private final String DOCUMENT_CHATBOX_TYPE_CODE = "document-chat-T0900139-%";
+
+	/* AVOUS CLOUD */
+	private final String appID = "6sf5fan8utg8arwjmf5me9ihxw7wxbp9gwchc9gsytwmqh3o";
+	private final String appKey = "53ig09jggin3r4bq8eag7wpqn7hlqubkglkna341p33lg26c";
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chat);
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		AVOSCloud.initialize(this, appID, appKey);
+		AVAnalytics.trackAppOpened(getIntent());
 		initView();
-
 		initData();
 	}
 
@@ -216,7 +223,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		mDataArrays.add(entity);
 		mAdapter.notifyDataSetChanged();
-		
+
 		mEditTextContent.setText("");
 		mListView.setSelection(mListView.getCount() - 1);
 

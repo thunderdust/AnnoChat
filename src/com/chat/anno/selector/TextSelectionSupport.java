@@ -1,20 +1,21 @@
-package com.bossturban.webviewmarker;
+package com.chat.anno.selector;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.blahti.drag.DragController;
-import com.blahti.drag.DragController.DragBehavior;
-import com.blahti.drag.DragLayer;
-import com.blahti.drag.DragListener;
-import com.blahti.drag.DragSource;
-import com.blahti.drag.MyAbsoluteLayout;
-import com.bossturban.webviewmarker.R;
+import com.chat.anno.selector.DragController;
+import com.chat.anno.selector.DragController.DragBehavior;
+import com.chat.anno.selector.DragLayer;
+import com.chat.anno.selector.DragListener;
+import com.chat.anno.selector.DragSource;
+import com.chat.anno.selector.MyAbsoluteLayout;
+import com.chat.anno.selector.R;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -184,6 +185,10 @@ public class TextSelectionSupport implements TextSelectionControlListener, OnTou
             mScrollDiffX = 0;
             mScrollDiffY = 0;
             mScrolling = false;
+            // fix 4.4 double selection 
+            if (Build.VERSION.SDK_INT>=19){
+            	return true;
+            }
             break;
         case MotionEvent.ACTION_MOVE:
             mScrollDiffX += (xPoint - mLastTouchX);
@@ -307,7 +312,7 @@ public class TextSelectionSupport implements TextSelectionControlListener, OnTou
     }
     private Runnable drawSelectionHandlesHandler = new Runnable(){
         public void run() {
-            MyAbsoluteLayout.LayoutParams startParams = (com.blahti.drag.MyAbsoluteLayout.LayoutParams)mStartSelectionHandle.getLayoutParams();
+            MyAbsoluteLayout.LayoutParams startParams = (com.chat.anno.selector.MyAbsoluteLayout.LayoutParams)mStartSelectionHandle.getLayoutParams();
             final int startWidth = mStartSelectionHandle.getDrawable().getIntrinsicWidth();
             startParams.x = (int)(mSelectionBounds.left - startWidth * (1.0f - CENTERING_SHORTER_MARGIN_RATIO));
             startParams.y = (int)(mSelectionBounds.top);
@@ -316,7 +321,7 @@ public class TextSelectionSupport implements TextSelectionControlListener, OnTou
             startParams.y = (startParams.y < 0) ? 0 : startParams.y;
             mStartSelectionHandle.setLayoutParams(startParams);
 
-            MyAbsoluteLayout.LayoutParams endParams = (com.blahti.drag.MyAbsoluteLayout.LayoutParams)mEndSelectionHandle.getLayoutParams();
+            MyAbsoluteLayout.LayoutParams endParams = (com.chat.anno.selector.MyAbsoluteLayout.LayoutParams)mEndSelectionHandle.getLayoutParams();
             final int endWidth = mEndSelectionHandle.getDrawable().getIntrinsicWidth();
             endParams.x = (int) (mSelectionBounds.right - endWidth * CENTERING_SHORTER_MARGIN_RATIO);
             endParams.y = (int) (mSelectionBounds.bottom);

@@ -1,4 +1,7 @@
-package com.blahti.drag;
+package com.chat.anno.selector;
+
+import com.chat.anno.selector.DragController;
+import com.chat.anno.selector.DragSource;
 
 /**
  * Interface to receive notifications when a drag starts or stops

@@ -1,11 +1,10 @@
 package com.example.voice_rcd;
 
 
-import com.bossturban.webviewmarker.TextSelectionSupport;
+import com.chat.anno.selector.TextSelectionSupport;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;

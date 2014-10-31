@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.blahti.drag;
+package com.chat.anno.selector;
 
 import android.content.Context;
 import android.graphics.Rect;
