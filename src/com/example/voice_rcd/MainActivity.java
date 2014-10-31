@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -19,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,6 +32,8 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements OnClickListener {
 	/** Called when the activity is first created. */
 
+	private ImageButton mBtnRightTop;
+	private ImageButton mAttachBtn;
 	private Button mBtnSend;
 	private TextView mBtnRcd;
 	private Button mBtnBack;
@@ -50,6 +55,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Handler mHandler = new Handler();
 	private String voiceName;
 	private long startVoiceT, endVoiceT;
+	private Context mContext;
+
+	private final String DOCUMENT_CHATBOX_TYPE_CODE = "document-chat-T0900139-%";
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,6 +70,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	public void initView() {
+
+		mContext = this.getApplicationContext();
+		mBtnRightTop = (ImageButton) findViewById(R.id.right_btn);
+		mAttachBtn = (ImageButton) findViewById(R.id.btn_attach);
 		mListView = (ListView) findViewById(R.id.listview);
 		mBtnSend = (Button) findViewById(R.id.btn_send);
 		mBtnRcd = (TextView) findViewById(R.id.btn_rcd);
@@ -83,7 +95,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				.findViewById(R.id.voice_rcd_hint_tooshort);
 		mSensor = new SoundMeter();
 		mEditTextContent = (EditText) findViewById(R.id.et_sendmessage);
-		
+
 		chatting_mode_btn.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -105,18 +117,41 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		});
 		mBtnRcd.setOnTouchListener(new OnTouchListener() {
-			
+
 			public boolean onTouch(View v, MotionEvent event) {
 				return false;
 			}
 		});
+
+		mBtnRightTop.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent toDocumentViewIntent = new Intent(v.getContext(),
+						DocumentViewActivity.class);
+				v.getContext().startActivity(toDocumentViewIntent);
+			}
+
+		});
+
+		mAttachBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				sendDocAttachment();
+			}
+		});
 	}
 
-	private String[] msgArray = new String[] { "Nice to meet you","Glad to know you too","Let's discuss the tutorial","Sure where shall we start?","Let me share the file first","Okay thanks"};
+	private String[] msgArray = new String[] { "Nice to meet you",
+			"Glad to know you too", "Let's discuss the tutorial",
+			"Sure where shall we start?", "Let me share the file first",
+			"Okay thanks" };
 
 	private String[] dataArray = new String[] { "2012-10-31 18:00",
 			"2012-10-31 18:10", "2012-10-31 18:11", "2012-10-31 18:20",
-			"2012-10-31 18:30", "2012-10-31 18:35"};
+			"2012-10-31 18:30", "2012-10-31 18:35" };
 	private final static int COUNT = 6;
 
 	public void initData() {
@@ -170,6 +205,23 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	private void sendDocAttachment() {
+
+		ChatMsgEntity entity = new ChatMsgEntity();
+		entity.setDocumentAttachmentFlag();
+		entity.setDate(getDate());
+		entity.setName("Max");
+		entity.setMsgType(false);
+		entity.setText("VIEW DOCUMENT ATTACHMENT");
+
+		mDataArrays.add(entity);
+		mAdapter.notifyDataSetChanged();
+		
+		mEditTextContent.setText("");
+		mListView.setSelection(mListView.getCount() - 1);
+
+	}
+
 	private String getDate() {
 		Calendar c = Calendar.getInstance();
 
@@ -197,7 +249,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		if (btn_vocie) {
 			System.out.println("1");
 			int[] location = new int[2];
-			mBtnRcd.getLocationInWindow(location); 
+			mBtnRcd.getLocationInWindow(location);
 			int btn_rc_Y = location[1];
 			int btn_rc_X = location[0];
 			int[] del_location = new int[2];
@@ -245,7 +297,10 @@ public class MainActivity extends Activity implements OnClickListener {
 					del_re.setVisibility(View.GONE);
 					stop();
 					flag = 1;
-					File file = new File(android.os.Environment.getExternalStorageDirectory()+"/"
+					File file = new File(
+							android.os.Environment
+									.getExternalStorageDirectory()
+									+ "/"
 									+ voiceName);
 					if (file.exists()) {
 						file.delete();
@@ -274,9 +329,9 @@ public class MainActivity extends Activity implements OnClickListener {
 					}
 					ChatMsgEntity entity = new ChatMsgEntity();
 					entity.setDate(getDate());
-					entity.setName("¸ß¸»Ë§");
+					entity.setName("Max");
 					entity.setMsgType(false);
-					entity.setTime(time+"\"");
+					entity.setTime(time + "\"");
 					entity.setText(voiceName);
 					mDataArrays.add(entity);
 					mAdapter.notifyDataSetChanged();
@@ -341,7 +396,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void updateDisplay(double signalEMA) {
-		
+
 		switch ((int) signalEMA) {
 		case 0:
 		case 1:
@@ -350,7 +405,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		case 2:
 		case 3:
 			volume.setImageResource(R.drawable.amp2);
-			
+
 			break;
 		case 4:
 		case 5:
@@ -374,7 +429,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	public void head_xiaohei(View v) { 
+	public void head_xiaohei(View v) {
 
 	}
 }

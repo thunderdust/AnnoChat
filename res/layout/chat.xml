@@ -80,13 +80,24 @@
                 android:id="@+id/et_sendmessage"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_alignTop="@+id/btn_send"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@id/btn_send"
+                android:layout_toRightOf="@+id/btn_attach"
                 android:background="@drawable/login_edit_normal"
                 android:singleLine="true"
                 android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/btn_attach"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/document_btn"
+                android:background="@null" />
+
         </RelativeLayout>
 
         <TextView

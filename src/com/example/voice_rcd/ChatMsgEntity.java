@@ -12,7 +12,15 @@ public class ChatMsgEntity {
     
     private String time;
     
+    private boolean isDocumentAttachment = false;
     
+    public boolean isDocumentAttachment(){
+    	return isDocumentAttachment;
+    }
+    
+    public void setDocumentAttachmentFlag(){
+    	isDocumentAttachment = true;
+    }
 
     public String getTime() {
 		return time;
