@@ -278,7 +278,7 @@ public class TextSelectionSupport implements TextSelectionControlListener, OnTou
     }
     private void createSelectionLayer(Context context){
         final LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mSelectionDragLayer = (DragLayer)(inflater.inflate(R.layout.selection_drag_layer, null).findViewById(R.id.dragLayer));
+        mSelectionDragLayer = (DragLayer)(inflater.inflate(R.layout.selection_drag_layer, null, false));
         if (mSelectionDragLayer!=null){
         	Log.d(TAG, "NOT NULL");
         }
