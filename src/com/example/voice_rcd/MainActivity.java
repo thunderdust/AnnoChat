@@ -28,8 +28,8 @@ public class MainActivity extends AnnoChatLoginActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		// Avos cloud analytics & push service set up
-		AVAnalytics.trackAppOpened(getIntent());
-		AVService.initPushService(this);
+		//AVAnalytics.trackAppOpened(getIntent());
+		//AVService.initPushService(this);
 
 		if (getUserId() != null) {
 			// Intent mainIntent = new Intent(activity, MainActivity.class);

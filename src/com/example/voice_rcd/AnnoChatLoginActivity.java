@@ -13,7 +13,7 @@ public class AnnoChatLoginActivity extends Activity {
 
 	public AnnoChatLoginActivity activity;
 	private String userId;
-	private ProgressDialog progressDialog;
+	private ProgressDialog progressDialog; 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +21,9 @@ public class AnnoChatLoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		activity = this;
 		userId = null;
-		AVUser currentUser = AVUser.getCurrentUser();
-		if (currentUser != null) {
+		AVUser currentUser = null;
+		//currentUser = AVUser.getCurrentUser();
+		 if (currentUser != null) {
 			this.userId = getUserId(currentUser);
 		}
 
